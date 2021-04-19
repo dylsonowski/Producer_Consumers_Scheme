@@ -7,16 +7,13 @@ void Consumer::ProcessData() {
 	}
 
 	while (!_queuePointer->empty()) {
-		s_readBlock.lock();
-		std::array<int, 100000> processingElement = _queuePointer->front();
-		_queuePointer->pop_front();
-		s_readBlock.unlock();
-
-		std::sort(processingElement.begin(), processingElement.end());
+		const std::lock_guard<std::mutex> guardian(s_readBlock);
+		std::sort(_queuePointer->front().begin(), _queuePointer->front().end());
 		_sortedProducts++;
-		int accumulation;
-		std::accumulate(processingElement.begin(), processingElement.end(), accumulation);
+		int accumulation = 0;
+		std::accumulate(_queuePointer->front().begin(), _queuePointer->front().end(), accumulation);
 		_summedValues.emplace_back(accumulation);
+		_queuePointer->pop_front();
 	}
 }
 

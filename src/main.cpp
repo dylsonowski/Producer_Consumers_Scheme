@@ -4,7 +4,11 @@
 
 class Queue;
 int main(int argc, char** argv) {
-
+	std::unique_ptr<Queue> newQueue = std::make_unique<Queue>(100);
+	std::vector<std::unique_ptr<Consumer>> consumers;
+	for (unsigned int it = 0; it < 4; it++) {
+		consumers.emplace_back(std::make_unique<Consumer>(newQueue->GetQueuePointer()));
+	}
 
 	system("pause");
 	return 0;
