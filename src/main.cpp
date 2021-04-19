@@ -18,10 +18,10 @@ public:
 
 	inline unsigned int GetQueueSize() const { return _queueSize; }
 	inline std::shared_ptr<std::list<std::array<int, 100000>>> GetQueuePointer() const { return std::make_shared<std::list<std::array<int, 100000>>>(_taskQueue); }
-	inline std::thread::id GetThreadId() const { return _threadId; }
+	//inline std::thread::id GetThreadId() const { return _threadId; }
 
 private:
-	std::thread::id _threadId;
+	std::thread _queueThread;
 	unsigned int _queueSize;
 	std::list<std::array<int, 100000>> _taskQueue;
 };
