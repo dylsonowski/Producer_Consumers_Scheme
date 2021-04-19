@@ -12,7 +12,7 @@ public:
 	Producer(std::shared_ptr<std::list<std::array<int, 100000>>> queuePointer, unsigned int queueSize) : _queuePointer(queuePointer), _queueSize(queueSize) {
 		_producerThread = std::thread(&Producer::StartProduction, this);
 	}
-	~Producer() = default;
+	~Producer() { _producerThread.join(); }
 
 private:
 	static int GenerateRandomNumber(int lowerRange, int upperRange);
