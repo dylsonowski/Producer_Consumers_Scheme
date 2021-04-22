@@ -23,7 +23,7 @@ private:
 
 	std::thread _consumerThread;
 	std::shared_ptr<std::list<std::array<int, 100000>>> _queuePointer;
-	static std::mutex s_readBlock;
+	//static std::mutex s_readBlock;
 	std::vector<int> _summedValues;
 	unsigned int _sortedProducts;
 };

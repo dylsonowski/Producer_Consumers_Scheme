@@ -8,9 +8,7 @@ int Producer::GenerateRandomNumber(int lowerRange, int upperRange) {
 }
 
 void Producer::StartProduction() {
-	while (!_queuePointer->empty()) {
-		std::this_thread::yield();
-	}
+	if()
 
 	for (unsigned int listIt = 0; listIt < _queueSize; listIt++) {
 		std::array<int, 100000> temp;
