@@ -8,13 +8,27 @@ int Producer::GenerateRandomNumber(int lowerRange, int upperRange) {
 }
 
 void Producer::StartProduction() {
-	if()
-
-	for (unsigned int listIt = 0; listIt < _queueSize; listIt++) {
-		std::array<int, 100000> temp;
-		for (auto& arrayIt : temp) {
-			arrayIt = GenerateRandomNumber(-1000, 1000);
+	while (_insertionCounter <= _numberToCreate) {
+		if (_queuePointer->GetQueueReference().size() >= _queueSize) {
+			while (_queuePointer->GetQueueReference().size() > 0) {
+				_queuePointer->ChangeQueueStatus(true, false);
+				std::this_thread::yield();
+			}
 		}
-		_queuePointer->emplace_back(temp);
+		else {
+			_queuePointer->ChangeQueueStatus(false, true);
+			if (_queuePointer->GetQueueReference().size() < _queueSize) {
+				std::array<int, 100000> temp;
+				for (auto& arrayIt : temp) {
+					arrayIt = GenerateRandomNumber(-1000, 1000);
+				}
+				
+				if (_queuePointer->AddElement(temp))
+					_insertionCounter++;
+			}
+		}
+
+		if (_insertionCounter == _numberToCreate)
+			Queue::s_creationProcessFinished = true;
 	}
 }
